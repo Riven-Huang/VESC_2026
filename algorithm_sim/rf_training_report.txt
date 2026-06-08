@@ -1,0 +1,75 @@
+Random forest gesture model
+windows: 113608
+features: 22
+train windows: 88990
+test windows: 24618
+
+class distribution:
+  others: 20596
+  pinch: 25020
+  clench: 25002
+  up: 21519
+  down: 21471
+
+classification report:
+              precision    recall  f1-score   support
+
+      others     0.7776    0.7569    0.7671      3225
+       pinch     0.9811    0.9517    0.9662      6381
+      clench     0.9457    0.9935    0.9690      5841
+          up     0.9343    0.8843    0.9086      5481
+        down     0.9125    0.9805    0.9453      3690
+
+    accuracy                         0.9254     24618
+   macro avg     0.9102    0.9134    0.9112     24618
+weighted avg     0.9253    0.9254    0.9248     24618
+
+confusion matrix rows=true cols=pred:
+[[2441   90   29  318  347]
+ [   4 6073  304    0    0]
+ [  11   27 5803    0    0]
+ [ 634    0    0 4847    0]
+ [  49    0    0   23 3618]]
+
+feature importance:
+  mean_gx: 0.175650
+  gyro_abs_mean: 0.134497
+  delta_ay: 0.125983
+  range_az: 0.079274
+  accel_range_sum: 0.060505
+  range_gz: 0.056427
+  mean_az: 0.056373
+  range_gx: 0.049811
+  delta_az: 0.047442
+  range_ay: 0.041036
+  gyro_range_sum: 0.040050
+  range_gy: 0.035266
+  range_ax: 0.028494
+  mean_ay: 0.019123
+  mean_gz: 0.019097
+  mean_ax: 0.008899
+  delta_gx: 0.005300
+  delta_gz: 0.004968
+  mean_gy: 0.004491
+  accel_abs_mean: 0.004360
+  delta_ax: 0.001521
+  delta_gy: 0.001436
+
+event-level evaluation on held-out files:
+files: 73
+match tolerance ms: 1200
+confirm windows: 2
+cooldown ms: 1600
+min rf votes: 12/25
+
+per class:
+  others: tp=0 wrong=0 dup=0 fp=20 fn=0 recall=0.0000
+  pinch: tp=676 wrong=27 dup=7 fp=18 fn=6 recall=0.9535
+  clench: tp=594 wrong=52 dup=20 fp=14 fn=3 recall=0.9153
+  up: tp=492 wrong=85 dup=76 fp=530 fn=32 recall=0.8079
+  down: tp=348 wrong=62 dup=46 fp=346 fn=0 recall=0.8488
+
+event totals:
+  tp=2110 wrong=226 duplicate=149 fp=928 fn=41
+  event precision=0.6182
+  event recall=0.8877

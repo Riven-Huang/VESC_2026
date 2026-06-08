@@ -1,0 +1,27 @@
+# IDE and local workspace
+WorkSPACE/
+.metadata/
+.vscode/
+*.lnk
+
+# Backup archives and raw packages
+original/
+*.zip
+*.rar
+*.7z
+
+# Build outputs
+VeriHealthi_QEMU_SDK_v3.7/qemu/Release/
+*.o
+*.d
+*.map
+*.lst
+*.out
+*.hex
+*.siz
+
+# Python cache and temporary logs
+__pycache__/
+*.pyc
+algorithm_sim/last_train_console.txt
+
