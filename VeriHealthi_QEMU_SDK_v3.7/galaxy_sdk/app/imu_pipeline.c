@@ -24,7 +24,7 @@ static ImuSample g_imu_sample_ring[IMU_ALGO_WINDOW_SAMPLES];
 static volatile uint32_t g_imu_data_ready_count;
 static uint32_t g_imu_window_write_index;
 static uint32_t g_crc_byte_count;
-static uint32_t g_crc32_value = 0xFFFFFFFFU;
+static uint8_t g_crc8_value;
 static bool g_crc_printed;
 
 static void imu_data_ready_callback(void)
@@ -42,17 +42,17 @@ static int check_vsd_ret(const char *name, int ret)
     return VSD_SUCCESS;
 }
 
-static uint32_t crc32_update(uint32_t crc, const uint8_t *data, uint32_t length)
+static uint8_t crc8_smbus_update(uint8_t crc, const uint8_t *data, uint32_t length)
 {
     uint32_t i;
 
     while (length > 0) {
         crc ^= *data;
         for (i = 0; i < 8; i++) {
-            if ((crc & 1U) != 0U) {
-                crc = (crc >> 1) ^ 0xEDB88320UL;
+            if ((crc & 0x80U) != 0U) {
+                crc = (uint8_t)((crc << 1) ^ 0x07U);
             } else {
-                crc >>= 1;
+                crc = (uint8_t)(crc << 1);
             }
         }
         data++;
@@ -77,13 +77,13 @@ static void update_first_imu_crc(const ImuGyroAccelData *data)
         bytes_to_use = bytes_left;
     }
 
-    g_crc32_value = crc32_update(g_crc32_value, (const uint8_t *)data, bytes_to_use);
+    g_crc8_value = crc8_smbus_update(g_crc8_value, (const uint8_t *)data, bytes_to_use);
     g_crc_byte_count += bytes_to_use;
 
     if (g_crc_byte_count >= IMU_CRC_TARGET_BYTES) {
-        uart_printf("imu crc32 %d bytes: 0x%x\r\n",
+        uart_printf("imu crc8/smbus %d bytes: 0x%x\r\n",
                     (int)IMU_CRC_TARGET_BYTES,
-                    (unsigned int)(g_crc32_value ^ 0xFFFFFFFFU));
+                    (unsigned int)g_crc8_value);
         g_crc_printed = true;
     }
 }

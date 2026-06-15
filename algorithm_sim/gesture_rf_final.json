@@ -1,0 +1,33 @@
+{
+  "sample_rate_hz": 50,
+  "window_samples": 50,
+  "window_step_samples": 10,
+  "feature_count": 123,
+  "training_windows": 106963,
+  "class_counts": {
+    "others": 13948,
+    "pinch": 25020,
+    "clench": 25002,
+    "up": 21519,
+    "down": 21474
+  },
+  "random_forest": {
+    "trees": 50,
+    "max_depth": 12,
+    "min_samples_leaf": 4,
+    "random_state": 2026
+  },
+  "postprocess": {
+    "pinch_votes": 40,
+    "clench_votes": 30,
+    "up_votes": 32,
+    "down_votes": 32,
+    "confirm_windows": 3,
+    "cooldown_ms": 1600,
+    "arm_state": true
+  },
+  "tree_count": 50,
+  "node_count": 76106,
+  "estimated_model_bytes": 761260,
+  "elapsed_seconds": 35.199
+}

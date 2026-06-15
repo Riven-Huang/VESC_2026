@@ -25,3 +25,5 @@ __pycache__/
 *.pyc
 algorithm_sim/last_train_console.txt
 
+# Local submission assembly duplicates the tracked SDK
+submission/01_完整工程/VeriHealthi_QEMU_SDK_v3.7/
