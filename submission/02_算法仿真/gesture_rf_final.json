@@ -12,22 +12,23 @@
     "down": 21474
   },
   "random_forest": {
-    "trees": 50,
-    "max_depth": 12,
-    "min_samples_leaf": 4,
+    "trees": 100,
+    "max_depth": 14,
+    "min_samples_leaf": 2,
     "random_state": 2026
   },
   "postprocess": {
-    "pinch_votes": 42,
-    "clench_votes": 34,
-    "up_votes": 32,
-    "down_votes": 32,
+    "pinch_votes": 82,
+    "clench_votes": 77,
+    "up_votes": 50,
+    "down_votes": 50,
     "confirm_windows": 3,
     "cooldown_ms": 600,
+    "release_windows": 2,
     "arm_state": true
   },
-  "tree_count": 50,
-  "node_count": 76106,
-  "estimated_model_bytes": 761260,
-  "elapsed_seconds": 35.199
+  "tree_count": 100,
+  "node_count": 269196,
+  "estimated_model_bytes": 2692360,
+  "elapsed_seconds": 43.912
 }

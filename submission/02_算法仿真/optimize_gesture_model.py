@@ -751,7 +751,7 @@ def run_experiment(args: argparse.Namespace) -> None:
                     args.arm_confirm,
                 ),
                 cooldown_ms=args.cooldown,
-                release_windows=1,
+                release_windows=args.release_windows,
                 use_arm_state=args.arm_state,
             )
         ]
@@ -788,6 +788,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--clench-confirm", type=int, default=3)
     parser.add_argument("--arm-confirm", type=int, default=3)
     parser.add_argument("--cooldown", type=int, default=1000)
+    parser.add_argument("--release-windows", type=int, default=2)
     parser.add_argument("--arm-state", action="store_true")
     return parser.parse_args()
 

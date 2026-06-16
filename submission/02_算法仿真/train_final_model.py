@@ -27,18 +27,19 @@ APP_DIR = find_app_dir()
 MODEL_PATH = Path(__file__).resolve().parent / "gesture_rf_final.joblib"
 METADATA_PATH = Path(__file__).resolve().parent / "gesture_rf_final.json"
 
-TREE_COUNT = 50
-MAX_DEPTH = 12
-MIN_SAMPLES_LEAF = 4
+TREE_COUNT = 100
+MAX_DEPTH = 14
+MIN_SAMPLES_LEAF = 2
 FEATURE_COUNT = 123
 
 POSTPROCESS = {
-    "pinch_votes": 42,
-    "clench_votes": 34,
-    "up_votes": 32,
-    "down_votes": 32,
+    "pinch_votes": 82,
+    "clench_votes": 77,
+    "up_votes": 50,
+    "down_votes": 50,
     "confirm_windows": 3,
     "cooldown_ms": 600,
+    "release_windows": 2,
     "arm_state": True,
 }
 

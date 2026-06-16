@@ -7,8 +7,8 @@
 #include "gesture_algo.h"
 
 #define GESTURE_RF_FEATURE_COUNT 123U
-#define GESTURE_RF_TREE_COUNT 50U
-#define GESTURE_RF_NODE_COUNT 76106UL
+#define GESTURE_RF_TREE_COUNT 100U
+#define GESTURE_RF_NODE_COUNT 269196UL
 
 typedef struct GestureRfFeatures_st {
     int32_t value[GESTURE_RF_FEATURE_COUNT];

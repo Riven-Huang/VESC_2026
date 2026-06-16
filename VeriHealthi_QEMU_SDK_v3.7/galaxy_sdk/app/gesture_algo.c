@@ -10,6 +10,7 @@
 
 #define GESTURE_CONFIRM_WINDOWS 3U
 #define GESTURE_OUTPUT_COOLDOWN_MS 600U
+#define GESTURE_RELEASE_WINDOWS 2U
 #define GESTURE_SEGMENT_COUNT 5U
 #define GESTURE_SEGMENT_SAMPLES (IMU_ALGO_WINDOW_SAMPLES / GESTURE_SEGMENT_COUNT)
 #define GESTURE_QUARTER_SAMPLES (IMU_ALGO_WINDOW_SAMPLES / 4U)
@@ -38,6 +39,7 @@ static uint32_t g_last_output_timestamp_ms;
 static GestureType g_pending_type;
 static uint32_t g_pending_count;
 static GestureType g_blocked_type;
+static uint32_t g_blocked_release_count;
 static bool g_arm_raised;
 
 static int32_t value_abs32(int32_t value)
@@ -246,14 +248,14 @@ static uint8_t vote_threshold(GestureType type)
 {
     switch (type) {
     case GESTURE_PINCH:
-        return 42U;
+        return 82U;
     case GESTURE_CLENCH:
-        return 34U;
+        return 77U;
     case GESTURE_UP:
     case GESTURE_DOWN:
-        return 32U;
+        return 50U;
     default:
-        return 51U;
+        return 101U;
     }
 }
 
@@ -299,6 +301,7 @@ void gesture_algo_init(void)
     g_pending_type = GESTURE_NONE;
     g_pending_count = 0U;
     g_blocked_type = GESTURE_NONE;
+    g_blocked_release_count = 0U;
     g_arm_raised = false;
 }
 
@@ -333,15 +336,29 @@ bool gesture_algo_process_window(const ImuSampleMessage *window, GestureResult *
     fill_rf_features(window, &stats, &features);
     type = gesture_rf_predict_with_votes(&features, votes);
     if (type == GESTURE_NONE || votes[type] < vote_threshold(type)) {
+        type = GESTURE_NONE;
+    }
+
+    if (g_blocked_type != GESTURE_NONE) {
+        if (type == g_blocked_type) {
+            g_blocked_release_count = 0U;
+            (void)confirm_prediction(GESTURE_NONE);
+            return false;
+        }
+        g_blocked_release_count++;
+        if (g_blocked_release_count < GESTURE_RELEASE_WINDOWS) {
+            (void)confirm_prediction(GESTURE_NONE);
+            return false;
+        }
         g_blocked_type = GESTURE_NONE;
+        g_blocked_release_count = 0U;
+    }
+
+    if (type == GESTURE_NONE) {
         (void)confirm_prediction(GESTURE_NONE);
         return false;
     }
-    if (type == g_blocked_type) {
-        (void)confirm_prediction(GESTURE_NONE);
-        return false;
-    }
-    g_blocked_type = GESTURE_NONE;
+
     if (!arm_state_allows(type)) {
         (void)confirm_prediction(GESTURE_NONE);
         return false;
@@ -355,6 +372,7 @@ bool gesture_algo_process_window(const ImuSampleMessage *window, GestureResult *
     g_last_output_type = type;
     g_last_output_timestamp_ms = result->timestamp_ms;
     g_blocked_type = type;
+    g_blocked_release_count = 0U;
     g_pending_type = GESTURE_NONE;
     g_pending_count = 0U;
     if (type == GESTURE_UP) {
