@@ -24,9 +24,9 @@ python -m pip install -r requirements.txt
 在仓库根目录运行：
 
 ```powershell
-python submission/02_算法仿真/optimize_gesture_model.py --model rf --trees 100 --depth 14 --leaf 2 --window 50 --validation-user 0 --rich --dynamic --fixed-config --pinch-votes 82 --clench-votes 77 --arm-votes 50 --cooldown 600 --release-windows 2 --arm-state
+python submission/02_算法仿真/optimize_gesture_model.py --model rf --trees 120 --depth 16 --leaf 2 --window 50 --validation-user 0 --rich --dynamic --fixed-config --pinch-votes 93 --clench-votes 88 --arm-votes 65 --cooldown 600 --release-windows 2 --arm-state
 python submission/02_算法仿真/train_final_model.py
 python submission/02_算法仿真/verify_exported_model.py
 ```
 
-完整六用户留一结果见 `../03_设计文档/验证报告.md`。最终事件级宏 F1 为 `93.30%`。
+完整六用户留一结果见 `../03_设计文档/验证报告.md`。最终事件级宏 F1 为 `93.79%`。

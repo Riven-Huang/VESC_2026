@@ -35,18 +35,26 @@ def parse_array(source: str, name: str) -> np.ndarray:
     return np.fromstring(match.group(1).strip().rstrip(","), dtype=np.int64, sep=",")
 
 
+def parse_define(source: str, name: str) -> int:
+    match = re.search(rf"#define\s+{name}\s+(-?\d+)", source)
+    if not match:
+        raise ValueError(f"define not found: {name}")
+    return int(match.group(1))
+
+
 def exported_votes(features: np.ndarray, arrays: dict[str, np.ndarray]) -> np.ndarray:
     votes = np.zeros((len(features), len(experiment.CLASS_NAMES)), dtype=np.int16)
     for row_index, row in enumerate(features):
         for offset in arrays["offsets"]:
             node = 0
-            while arrays["left"][offset + node] != 0xFFFF:
-                feature_index = arrays["feature"][offset + node]
-                if row[feature_index] <= arrays["threshold"][offset + node]:
-                    node = arrays["left"][offset + node]
+            while arrays["right"][offset + node] != 0xFFFF:
+                array_index = offset + node
+                feature_index = arrays["feature"][array_index]
+                if row[feature_index] + arrays["threshold_bias"] <= arrays["threshold"][array_index]:
+                    node += 1
                 else:
-                    node = arrays["right"][offset + node]
-            votes[row_index, arrays["value"][offset + node]] += 1
+                    node = arrays["right"][array_index]
+            votes[row_index, arrays["feature"][offset + node]] += 1
     return votes
 
 
@@ -55,11 +63,10 @@ def main() -> None:
     source = C_MODEL_PATH.read_text(encoding="ascii")
     arrays = {
         "offsets": parse_array(source, "g_tree_offsets"),
-        "left": parse_array(source, "g_left"),
         "right": parse_array(source, "g_right"),
         "feature": parse_array(source, "g_feature"),
         "threshold": parse_array(source, "g_threshold"),
-        "value": parse_array(source, "g_value"),
+        "threshold_bias": parse_define(source, "RF_THRESHOLD_BIAS"),
     }
 
     recordings = experiment.load_recordings()
@@ -83,7 +90,7 @@ def main() -> None:
         )
 
     print(f"verified {len(features)} feature vectors")
-    print(f"verified {len(model.estimators_)} trees and {len(arrays['left'])} nodes")
+    print(f"verified {len(model.estimators_)} trees and {len(arrays['right'])} nodes")
     print("Python and exported C forest votes are identical")
 
 

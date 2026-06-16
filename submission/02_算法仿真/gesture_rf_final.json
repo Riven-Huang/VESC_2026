@@ -12,23 +12,24 @@
     "down": 21474
   },
   "random_forest": {
-    "trees": 100,
-    "max_depth": 14,
+    "trees": 120,
+    "max_depth": 16,
     "min_samples_leaf": 2,
     "random_state": 2026
   },
   "postprocess": {
-    "pinch_votes": 82,
-    "clench_votes": 77,
-    "up_votes": 50,
-    "down_votes": 50,
+    "pinch_votes": 93,
+    "clench_votes": 88,
+    "up_votes": 65,
+    "down_votes": 65,
     "confirm_windows": 3,
     "cooldown_ms": 600,
     "release_windows": 2,
     "arm_state": true
   },
-  "tree_count": 100,
-  "node_count": 269196,
-  "estimated_model_bytes": 2692360,
-  "elapsed_seconds": 43.912
+  "tree_count": 120,
+  "node_count": 427572,
+  "threshold_bias": 12169,
+  "estimated_model_bytes": 2138340,
+  "elapsed_seconds": 41.47
 }
