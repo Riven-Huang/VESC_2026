@@ -33,8 +33,8 @@ MIN_SAMPLES_LEAF = 4
 FEATURE_COUNT = 123
 
 POSTPROCESS = {
-    "pinch_votes": 40,
-    "clench_votes": 30,
+    "pinch_votes": 42,
+    "clench_votes": 34,
     "up_votes": 32,
     "down_votes": 32,
     "confirm_windows": 3,

@@ -18,8 +18,8 @@
     "random_state": 2026
   },
   "postprocess": {
-    "pinch_votes": 40,
-    "clench_votes": 30,
+    "pinch_votes": 42,
+    "clench_votes": 34,
     "up_votes": 32,
     "down_votes": 32,
     "confirm_windows": 3,

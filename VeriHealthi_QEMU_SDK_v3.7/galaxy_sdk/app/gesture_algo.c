@@ -246,9 +246,9 @@ static uint8_t vote_threshold(GestureType type)
 {
     switch (type) {
     case GESTURE_PINCH:
-        return 40U;
+        return 42U;
     case GESTURE_CLENCH:
-        return 30U;
+        return 34U;
     case GESTURE_UP:
     case GESTURE_DOWN:
         return 32U;
