@@ -38,7 +38,7 @@ POSTPROCESS = {
     "up_votes": 32,
     "down_votes": 32,
     "confirm_windows": 3,
-    "cooldown_ms": 1600,
+    "cooldown_ms": 600,
     "arm_state": True,
 }
 

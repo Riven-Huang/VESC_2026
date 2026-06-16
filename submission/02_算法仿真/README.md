@@ -29,4 +29,4 @@ python submission/02_算法仿真/train_final_model.py
 python submission/02_算法仿真/verify_exported_model.py
 ```
 
-完整六用户留一结果见 `../03_设计文档/验证报告.md`。最终事件级宏 F1 为 `89.82%`。
+完整六用户留一结果见 `../03_设计文档/验证报告.md`。最终事件级宏 F1 为 `91.75%`。

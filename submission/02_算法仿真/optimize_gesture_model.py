@@ -503,7 +503,7 @@ def postprocess_peak_predictions(
 ) -> list[tuple[int, int]]:
     predictions: list[tuple[int, int]] = []
     index = 0
-    last_output_ms = -1600
+    last_output_ms = -config.cooldown_ms
     frame_count = len(timestamps_ms)
 
     while index < frame_count:
@@ -528,7 +528,7 @@ def postprocess_peak_predictions(
                     best_label = label_id
 
         output_ms = int(timestamps_ms[end - 1])
-        if best_label != 0 and output_ms - last_output_ms >= 1600:
+        if best_label != 0 and output_ms - last_output_ms >= config.cooldown_ms:
             predictions.append((output_ms, best_label))
             last_output_ms = output_ms
         index = end
